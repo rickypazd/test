@@ -6,15 +6,19 @@ import Servisofts.Servisofts;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        InetAddress ip = InetAddress.getLocalHost();
-        String ipAddress = ip.getHostAddress();
-        String ipName = ip.getHostName();
-        String ipHost = ip.getHostAddress();
-        System.out.println("IP: " + ipAddress);
-        System.out.println("Nombre: " + ipName);
-        System.out.println("Host: " + ipHost);
-        String ipA = getLocalHostLANAddress().getHostAddress();
-        System.out.println("IP: " + ipA);
+        System.out.println("Your Host addr: " + InetAddress.getLocalHost().getHostAddress());  // often returns "127.0.0.1"
+        Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
+        for (; n.hasMoreElements();)
+        {
+            NetworkInterface e = n.nextElement();
+    
+            Enumeration<InetAddress> a = e.getInetAddresses();
+            for (; a.hasMoreElements();)
+            {
+                InetAddress addr = a.nextElement();
+                System.out.println("  " + addr.getHostAddress());
+            }
+        }
 
 
     }
