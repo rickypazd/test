@@ -1,0 +1,40 @@
+{
+    "nombre": "test",
+    "ss": "servisofts.test",
+    "socket_client": {
+        "servicio": {
+            "puerto": 10001,
+            "ip": "servicio.ss.lo",
+            "cert": {
+                "OU": "servicio",
+                "pem": "servicio.pem"
+            }
+        },
+        "reconectTime": 5000
+    },
+    "data_base": {
+        "puerto": 5432,
+        "pg_restore": "C:\\Program Files\\PostgreSQL\\12\\bin\\pg_restore.exe",
+        "pass": "postgres",
+        "ip": "usuario.ss.lo",
+        "pg_dump": "C:\\Program Files\\PostgreSQL\\12\\bin\\pg_dump.exe",
+        "bd_name": "servisofts.usuario",
+        "user": "postgres"
+    },
+    "files": {
+        "url": "D:\\u01\\"
+    },
+    "ssl": {
+        "nombre_jks": "servisofts",
+        "pass_jks": "Servisofts123.",
+        "cert": {
+            "ST": "Av Banzer",
+            "C": "BO",
+            "E": "ricky.paz.d.97@gmail.com",
+            "OU": "test",
+            "CN": "test.servisofts.com",
+            "L": "Santa Cruz",
+            "O": "Servisofts SRL"
+        }
+    }
+}
