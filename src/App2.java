@@ -25,9 +25,13 @@ public class App2 {
         System.out.println("Your Host addr: " + InetAddress.getLocalHost().getHostAddress()); // often returns
         Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
         for (; n.hasMoreElements();) {
-            NetworkInterface networkInterface = n.nextElement();
-            if (networkInterface.isUp())
-                System.out.println("Display name: " + networkInterface.getDisplayName() + "\nName: " + networkInterface.getName() + "\nAddress: " + networkInterface.getInterfaceAddresses().get(0));
+            NetworkInterface e = n.nextElement();
+            Enumeration<InetAddress> a = e.getInetAddresses();
+            for (; a.hasMoreElements();) {
+                InetAddress addr = a.nextElement();
+                System.out.println("  " + addr.getHostAddress());
+
+            }
         }
     }
 
