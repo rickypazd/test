@@ -6,9 +6,6 @@ import Servisofts.Servisofts;
 
 public class App2 {
     public static void main(String[] args) throws Exception {
-        System.out.println("TEST -- 1");
-        test1();
-        System.out.println("TEST -- 2");
         test2();
     }
 
@@ -22,15 +19,17 @@ public class App2 {
     }
 
     public static void test2() throws SocketException, UnknownHostException {
-        System.out.println("Your Host addr: " + InetAddress.getLocalHost().getHostAddress()); // often returns
         Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
         for (; n.hasMoreElements();) {
             NetworkInterface e = n.nextElement();
             Enumeration<InetAddress> a = e.getInetAddresses();
             for (; a.hasMoreElements();) {
                 InetAddress addr = a.nextElement();
-                System.out.println("  " + addr.getHostAddress());
-
+                if (addr instanceof Inet4Address) {
+                    System.out.println("Interface: " + e.getDisplayName());
+                    System.out.println("IPv4: " + addr.getHostAddress());
+                    System.out.println("");
+                }
             }
         }
     }
