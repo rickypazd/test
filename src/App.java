@@ -57,18 +57,29 @@ public class App {
 
     public static void main(String[] args) {
 
-        String ipAddress = getSystemIP();
-        System.out.println("System IP : " + ipAddress);
-
-        // InetAddress ip = InetAddress.getLocalHost();
-        // String ipAddress = ip.getHostAddress();
-        // String ipName = ip.getHostName();
-        // String ipHost = ip.getHostAddress();
-        // System.out.println("IP: " + ipAddress);
-        // System.out.println("Nombre: " + ipName);
-        // System.out.println("Host: " + ipHost);
-        // String ipA = getLocalHostLANAddress().getHostAddress();
-        // System.out.println("IP: " + ipA);
+        String ip;
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface iface = interfaces.nextElement();
+                // filters out 127.0.0.1 and inactive interfaces
+                if (iface.isLoopback() || !iface.isUp())
+                    continue;
+        
+                Enumeration<InetAddress> addresses = iface.getInetAddresses();
+                while(addresses.hasMoreElements()) {
+                    InetAddress addr = addresses.nextElement();
+        
+                    // *EDIT*
+                    if (addr instanceof Inet6Address) continue;
+        
+                    ip = addr.getHostAddress();
+                    System.out.println(iface.getDisplayName() + " " + ip);
+                }
+            }
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
