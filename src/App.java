@@ -6,7 +6,7 @@ import java.util.*;
 import Servisofts.Servisofts;
 
 public class App {
-
+ 
     public static String getSystemIP() {
         try {
             String sysIP = "";
@@ -97,28 +97,37 @@ public class App {
                         }
                     }
                 }
-            }
-            if (candidateAddress != null) {
-                // We did not find a site-local address, but we found some other non-loopback
-                // address.
-                // Server might have a non-site-local address assigned to its NIC (or it might
-                // be running
-                // IPv6 which deprecates the "site-local" concept).
-                // Return this non-loopback candidate address...
-                return candidateAddress;
-            }
-            // At this point, we did not find a non-loopback address.
-            // Fall back to returning whatever InetAddress.getLocalHost() returns...
-            InetAddress jdkSuppliedAddress = InetAddress.getLocalHost();
-            if (jdkSuppliedAddress == null) {
-                throw new UnknownHostException("The JDK InetAddress.getLocalHost() method unexpectedly returned null.");
-            }
-            return jdkSuppliedAddress;
-        } catch (Exception e) {
-            UnknownHostException unknownHostException = new UnknownHostException(
-                    "Failed to determine LAN address: " + e);
-            unknownHostException.initCause(e);
-            throw unknownHostException;
+ 
+    public static void main(String[] args) throws Exception {
+        System.out.println("TEST -- 1");
+        test1();
+        System.out.println("TEST -- 2");
+        test2();
+    }
+
+    public static void test1() throws SocketException {
+        Enumeration<NetworkInterface> networkInterfaceEnumeration = NetworkInterface.getNetworkInterfaces();
+        while (networkInterfaceEnumeration.hasMoreElements()) {
+            for (InterfaceAddress interfaceAddress : networkInterfaceEnumeration.nextElement().getInterfaceAddresses())
+                if (interfaceAddress.getAddress().isSiteLocalAddress())
+                    System.out.println(interfaceAddress.getAddress().getHostAddress());
         }
     }
+
+    public static void test2() throws SocketException, UnknownHostException {
+        System.out.println("Your Host addr: " + InetAddress.getLocalHost().getHostAddress()); // often returns
+        Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
+        for (; n.hasMoreElements();) {
+            NetworkInterface e = n.nextElement();
+
+            Enumeration<InetAddress> a = e.getInetAddresses();
+            for (; a.hasMoreElements();) {
+                InetAddress addr = a.nextElement();
+                System.out.println("  " + addr.getHostAddress());
+                System.out.println("  " + e.getDisplayName());
+
+             }
+        }
+    }
+
 }
